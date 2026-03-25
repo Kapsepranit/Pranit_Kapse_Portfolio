@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pranit Kapse — Technical Writer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --cream: #f5f0e8;
+    --warm: #e8dfc8;
+    --rust: #b85c2a;
+    --rust-light: #d4784a;
+    --muted: #7a6f63;
+    --rule: #c8bfaf;
+    --card-bg: #faf7f2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--rust); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 4rem 4rem 4rem;
+    position: relative;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; bottom: 20%;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background: var(--rust);
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    max-width: 400px;
+    font-style: italic;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: var(--rust);
+    color: var(--cream);
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--rust-light); transform: translateY(-1px); }
+
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-ghost:hover { border-color: var(--rust); color: var(--rust); transform: translateY(-1px); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 4rem 4rem 5rem;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-block {
+    border-top: 1px solid var(--rule);
+    padding-top: 1rem;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--rust);
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  .hero-summary {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.8;
+    border-left: 2px solid var(--rust);
+    padding-left: 1.5rem;
+    font-style: italic;
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    padding: 6rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1.2rem;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--rust);
+    letter-spacing: 0.15em;
+  }
+
+  h2 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+
+  h2 em { font-style: italic; color: var(--rust); }
+
+  /* ── SKILLS ── */
+  .skills-section { background: var(--card-bg); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .skill-card {
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .skill-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(184, 92, 42, 0.1);
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--rust);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .skill-card:hover::before { transform: scaleX(1); }
+
+  .skill-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .skill-card h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--rule);
+    color: var(--muted);
+    background: transparent;
+    transition: all 0.2s;
+  }
+
+  .tag:hover { border-color: var(--rust); color: var(--rust); }
+
+  /* ── EXPERIENCE ── */
+  .experience-section { background: var(--cream); }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.5rem; bottom: 0.5rem;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    padding-left: 2rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem;
+    top: 0.5rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--rust);
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 1px var(--rust);
+  }
+
+  .timeline-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--rust);
+  }
+
+  .timeline-company {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .timeline-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .timeline-bullets li {
+    font-size: 0.97rem;
+    color: var(--muted);
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .timeline-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--rust);
+    font-size: 0.8rem;
+  }
+
+  /* ── WRITING SAMPLES ── */
+  .samples-section { background: var(--card-bg); }
+
+  .samples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .sample-card {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sample-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(184, 92, 42, 0.12);
+  }
+
+  .sample-card-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.8rem;
+  }
+
+  .sample-card h3 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .sample-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .sample-arrow {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--rust);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .sample-card:hover .sample-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── ACHIEVEMENTS ── */
+  .achievements-section { background: var(--ink); color: var(--cream); }
+
+  .achievements-section .section-header { border-color: rgba(245,240,232,0.15); }
+  .achievements-section h2 { color: var(--cream); }
+  .achievements-section .section-num { color: var(--rust-light); }
+
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid rgba(245,240,232,0.1);
+  }
+
+  .achievement-item {
+    padding: 2.5rem;
+    border-right: 1px solid rgba(245,240,232,0.1);
+    border-bottom: 1px solid rgba(245,240,232,0.1);
+  }
+
+  .achievement-item:nth-child(3n) { border-right: none; }
+
+  .achievement-num {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--rust-light);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .achievement-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .achievement-desc {
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.6;
+  }
+
+  /* ── TOOLS ── */
+  .tools-section { background: var(--cream); }
+
+  .tools-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tools-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    padding: 0.8rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tools-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.95rem;
+    color: var(--muted);
+    vertical-align: top;
+  }
+
+  .tools-table tr:hover td { background: var(--card-bg); }
+
+  .tools-table td:first-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+  }
+
+  /* ── CONTACT / FOOTER ── */
+  .contact-section {
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 50vh;
+    padding: 0;
+  }
+
+  .contact-left {
+    padding: 5rem 4rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .contact-left h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-left p {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 1.05rem;
+    max-width: 400px;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-right {
+    padding: 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    min-width: 80px;
+  }
+
+  .contact-value {
+    font-size: 1rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-value:hover { color: var(--rust); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+
+  .hero-right > * {
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.5s;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left::after { display: none; }
+    .hero-left, .hero-right { padding: 6rem 1.5rem 2rem; }
+    section { padding: 4rem 1.5rem; }
+    .achievements-grid { grid-template-columns: 1fr; }
+    .achievement-item { border-right: none; }
+    .contact-section { grid-template-columns: 1fr; }
+    .contact-left { border-right: none; padding: 3rem 1.5rem; }
+    .contact-right { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Pranit Kapse / TW</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#samples">Writing Samples</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <div class="hero-tag">Technical Writer | Information Architecture</div>
+    <h1>Pranit<br><em>Kapse</em></h1>
+    <p class="hero-sub">Transforming complex technical specifications into structured, user-centric documentation. Specializing in DITA/XML, API Reference, and Automated Documentation Pipelines.</p>
+    <div class="hero-ctas">
+      <a href="#samples" class="btn-primary">View Writing Samples</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat-block">
+        <span class="stat-number">7+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">User Guides Published</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-number">30%</span>
+        <span class="stat-label">Content Efficiency Gain</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">On-time Sprint Delivery</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>Core <em>Competencies</em></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <span class="skill-card-icon">✦</span>
+      <h3>Documentation</h3>
+      <div class="skill-tags">
+        <span class="tag">User Guides</span>
+        <span class="tag">API Docs (RESTful)</span>
+        <span class="tag">Release Notes</span>
+        <span class="tag">SOPs</span>
+        <span class="tag">Installation Manuals</span>
+        <span class="tag">Online Help Systems</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">⬡</span>
+      <h3>Methodologies</h3>
+      <div class="skill-tags">
+        <span class="tag">DITA/XML</span>
+        <span class="tag">Structured Authoring</span>
+        <span class="tag">Topic-Based Writing</span>
+        <span class="tag">Doc-as-Code</span>
+        <span class="tag">Agile / Scrum</span>
+        <span class="tag">SDLC · DDLC</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">◈</span>
+      <h3>Multimedia & UX</h3>
+      <div class="skill-tags">
+        <span class="tag">Instructional Video</span>
+        <span class="tag">UI/UX Microcopy</span>
+        <span class="tag">Content Strategy</span>
+        <span class="tag">Information Architecture</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">◎</span>
+      <h3>Authoring Tools</h3>
+      <div class="skill-tags">
+        <span class="tag">Adobe FrameMaker</span>
+        <span class="tag">Oxygen XML Editor</span>
+        <span class="tag">MadCap Flare</span>
+        <span class="tag">Confluence</span>
+        <span class="tag">JIRA</span>
+        <span class="tag">Paligo</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">⊕</span>
+      <h3>API & Dev Tools</h3>
+      <div class="skill-tags">
+        <span class="tag">Swagger</span>
+        <span class="tag">Postman</span>
+        <span class="tag">Visual Studio Code</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">Markdown (VS Code)</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">✧</span>
+      <h3>AI & Emerging</h3>
+      <div class="skill-tags">
+        <span class="tag">Notebook LM</span>
+        <span class="tag">Copilot</span>
+        <span class="tag">Eraser.io</span>
+        <span class="tag">Markup AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience-section" id="experience">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Professional <em>Experience</em></h2>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-date">Nov 2022 — Present</span>
+      </div>
+      <div class="timeline-company">Dassault Systèmes Medidata</div>
+      <div class="timeline-role">Technical Writer</div>
+      <ul class="timeline-bullets">
+        <li>Created instructional content and user guides for <em>Patient Cloud</em> and <em>Study Feasibility</em> to support global clinical trial software.</li>
+        <li>Developed UI text and microcopy for online help systems, improving the overall user journey.</li>
+        <li>Implemented DITA methodology for modular, reusable content — reducing update resources by <strong>30%</strong>.</li>
+        <li>Revised documentation to ensure 100% alignment with software updates and healthcare regulatory changes.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-date">Nov 2021 — Nov 2022</span>
+      </div>
+      <div class="timeline-company">Data Dynamics Software Solution</div>
+      <div class="timeline-role">Technical Writer</div>
+      <ul class="timeline-bullets">
+        <li>Developed comprehensive installation and uninstallation guides for <em>StorageX</em> and <em>Insight Analytics</em>.</li>
+        <li>Managed 100% conversion of legacy FrameMaker content to structured DITA XML.</li>
+        <li>Coordinated 20+ documentation sprints for on-time GA build release notes and Readme files.</li>
+        <li>Performed UI testing to verify linguistic accuracy and workflow components.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-date">Oct 2019 — Nov 2021</span>
+      </div>
+      <div class="timeline-company">Datamatics Global Services</div>
+      <div class="timeline-role">Associate Technical Writer</div>
+      <ul class="timeline-bullets">
+        <li>Created technical guides for NPI products in the Building Automation domain.</li>
+        <li>Produced complex multilingual technical documents using Adobe InDesign and FrameMaker.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-date">May 2014 — Oct 2019</span>
+      </div>
+      <div class="timeline-company">Commit Technologies / Jagdamba Engineers</div>
+      <div class="timeline-role">Technical Writer · Project Engineer</div>
+      <ul class="timeline-bullets">
+        <li>Authored Operation & Maintenance manuals for specialized DRDO equipment.</li>
+        <li>Provided customer support and project engineering oversight for technical installations.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- WRITING SAMPLES -->
+<style>
+  /* ── SAMPLE CARDS DYNAMIC ── */
+  .samples-filter {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: var(--cream);
+  }
+
+  .sample-loading {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .sample-loading::before {
+    content: '';
+    display: inline-block;
+    width: 12px; height: 12px;
+    border: 2px solid var(--rule);
+    border-top-color: var(--rust);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .sample-card {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    display: block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .sample-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(184, 92, 42, 0.12);
+  }
+
+  .sample-card-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.8rem;
+  }
+
+  .sample-card h3 {
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .sample-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+
+  .sample-card-footer {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .btn-preview {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    background: var(--rust);
+    color: var(--cream);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-preview:hover { background: var(--rust-light); }
+
+  .btn-github {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-github:hover { border-color: var(--rust); color: var(--rust); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 14, 12, 0.75);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--cream);
+    width: 100%;
+    max-width: 820px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(20px);
+    transition: transform 0.25s;
+    border: 1px solid var(--rule);
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    border-bottom: 1px solid var(--rule);
+    flex-shrink: 0;
+  }
+
+  .modal-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .modal-close {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.6rem;
+    transition: color 0.2s;
+  }
+
+  .modal-close:hover { color: var(--rust); }
+
+  .modal-body {
+    padding: 2rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  /* Markdown rendered styles */
+  .md-content h1 { font-size: 1.8rem; font-weight: 300; margin-bottom: 1rem; color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 0.5rem; }
+  .md-content h2 { font-size: 1.3rem; font-weight: 400; margin: 1.5rem 0 0.6rem; color: var(--ink); }
+  .md-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.2rem 0 0.5rem; color: var(--rust); font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .md-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .md-content ul, .md-content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .md-content li { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 0.3rem; }
+  .md-content code { font-family: 'DM Mono', monospace; font-size: 0.78rem; background: var(--warm); padding: 0.1rem 0.4rem; border: 1px solid var(--rule); color: var(--rust); }
+  .md-content pre { background: var(--ink); padding: 1.2rem 1.5rem; border-radius: 0; margin-bottom: 1rem; overflow-x: auto; }
+  .md-content pre code { background: none; border: none; color: #c8bfaf; font-size: 0.8rem; padding: 0; }
+  .md-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.9rem; }
+  .md-content th { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1rem; border-bottom: 2px solid var(--rule); text-align: left; color: var(--rust); }
+  .md-content td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--rule); color: var(--muted); }
+  .md-content blockquote { border-left: 3px solid var(--rust); padding-left: 1.2rem; margin: 1rem 0; font-style: italic; color: var(--muted); }
+  .md-content strong { color: var(--ink); font-weight: 600; }
+  .md-content a { color: var(--rust); }
+  .md-content hr { border: none; border-top: 1px solid var(--rule); margin: 1.5rem 0; }
+</style>
+
+<section class="samples-section" id="samples">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>Writing <em>Samples</em></h2>
+  </div>
+
+  <div class="samples-filter">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="guide">Guides</button>
+    <button class="filter-btn" data-filter="api">API Reference</button>
+    <button class="filter-btn" data-filter="release">Release Notes</button>
+    <button class="filter-btn" data-filter="case">Case Study</button>
+  </div>
+
+  <div id="samples-loading" class="sample-loading">Loading writing samples…</div>
+  <div class="samples-grid" id="samples-grid" style="display:none;"></div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Document Preview</span>
+      <div class="modal-actions">
+        
+        <button class="modal-close" id="modal-close">✕ Close</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="md-content" id="modal-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+
+
+  var fileContents = {
+'quickstart':   `# Quick start guide: Insight AnalytiX v2.1.0
+
+Use this guide to deploy the Insight AnalytiX node and initiate your first data discovery scan.
+
+## 1. Prepare the environment
+Verify that your server meets these minimum requirements before you begin:
+* **Operating system:** RHEL 8.x or Ubuntu 20.04 LTS.
+* **Network:** Open ports **443** and **8080**.
+* **Permissions:** Root or \`sudo\` privileges.
+
+## 2. Install the node
+Use these commands to download and install the engine. 
+
+\`\`\`bash
+# Download the package
+wget [https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz](https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz)
+
+# Extract the files and navigate to the directory
+tar -xvf insight-analytix-v2.1.tar.gz && cd insight-analytix-v2.1
+
+# Run the installer
+sudo ./install.sh --management-ip <YOUR_STORAGE_X_IP>
+\`\`\`
+## 3. Verify connectivity
+Confirm that the service is running correctly:
+
+\`\`\`bash
+systemctl status analytix-engine
+\`\`\`
+The status must display **active (running)**.
+
+## 4. Run your first scan
+1. Log in to the **StorageX management console**.
+
+2. Go to **Data Discovery** > **AnalytiX Nodes**.
+
+3. Select your new node and select **Create New Scan**.
+
+4. Define your source path and select **Start**.`,
+'releasenote':  `# Release notes: Insight AnalytiX v2.1.0 (GA)
+
+**Release Date:** March 24, 2022 
+**Build Number:** 2.1.0.442  
+**Deployment Type:** General Availability (GA)
+
+## Overview
+Insight AnalytiX v2.1.0 introduces enhanced data discovery capabilities and streamlined node management. This release focuses on improving scan performance for large-scale storage environments and expanding support for cloud-native protocols.
+
+---
+
+## New features
+* **Multi-threaded scanning:** Improved scan efficiency by 30% for high-density file systems through optimized DITA-based modular indexing.
+* **Astro Starlight integration:** Launched a new web-based documentation portal using the Docs-as-Code methodology for real-time technical updates.
+* **Webhooks for real-time alerts:** Added support for outbound webhooks, allowing integration with third-party collaboration tools for instant scan notifications.
+
+---
+
+## Resolved issues
+The following issues were resolved in the **v2.1.0** build.
+
+| Category | ID | Description |
+| :--- | :--- | :--- |
+| **Performance** | FIX-402 | **Resolved** a processing bottleneck where the \`tar -xvf\` command caused temporary UI freezes on RHEL 8.x nodes. |
+| **UX Writing** | FIX-511 | **Updated** the Patient Cloud onboarding microcopy to clarify data privacy consent, improving user journey completion. |
+| **System** | FIX-389 | **Fixed** a reporting error where \`systemctl status\` displayed an "Inactive" state while background scans were in progress. |
+| **UI/UX** | FIX-602 | **Corrected** a display error in the Study Feasibility module where button labels were truncated on high-resolution screens. |
+| **Data Integrity**| FIX-214 | **Verified** 100% accuracy during the automated conversion of legacy FrameMaker tables into structured DITA XML. |
+
+---
+
+## Known issues and workarounds
+| Issue | Cause | Workaround |
+| :--- | :--- | :--- |
+| **Connection timeout** | Port 443 is blocked by a network firewall. | Run \`ufw allow 443\` or modify your network security group settings. |
+| **Invalid management IP**| The target IP address is unreachable. | Ping the server to verify connectivity and re-run the installation script. |
+| **Insufficient disk space**| The \`/opt\` partition has less than 10 GB of available space. | Clean up system logs or expand the partition before restarting the setup. |
+
+---
+
+## Technical requirements
+To ensure a successful upgrade, verify that your environment meets the following specifications:
+
+* **Node OS:** RHEL 8.x or Ubuntu 20.04 LTS.
+* **Java version:** OpenJDK 11.
+* **Memory:** 16 GB RAM (minimum).`,
+'api_post':     `# Create a Payment Intent
+
+The **Payment Intent** is the primary resource used to manage the lifecycle of a card transaction. It tracks the payment from initiation through authentication and final capture. Use this endpoint to provide transaction details, such as amount and currency, to the payment gateway.
+
+
+**Base URL**: https://api.paymentservice.com/v1
+
+**Endpoint** : /payments
+
+**Method:** POST 
+
+**URL:** \`https://sandbox-api.paymentservice.com/v1/payments\`
+
+### Authentication
+Requests are authenticated using a Bearer token in the HTTP header.
+\`Authorization: Bearer <YOUR_SECRET_KEY>\`
+
+### Request Parameters
+
+| Parameter | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| \`amount\` | **Integer** | **Yes** | A positive integer representing the charge amount in the smallest currency unit (e.g., **100** for **$1.00**). |
+| \`currency\` | **String** | **Yes** | 3-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) in lowercase (e.g., \`usd\`, \`eur\`). |
+| \`payment_method\` | **String** | **Yes** | The ID of the Payment Method (e.g., \`pm_123...\`) obtained from the client-side handoff. |
+| \`description\` | **String** | No | An optional string describing the transaction for internal records (max 255 characters). |
+
+---
+
+### Sample Request
+
+
+
+\`\`\`json
+{
+  "amount": 2500,
+  "currency": "usd",
+  "payment_method": "pm_card_visa",
+  "description": "Order #9876 - Wireless Headphones"
+}`,
+'api_get':      `# List All Payments
+
+Retrieves a list of \`PaymentIntent\` objects. The results are returned in reverse chronological order, with the most recent transactions appearing first. Use this endpoint to audit transactions or populate order history in your application.
+
+**Base URL** : https://api.paymentservice.com/v1
+
+**Endpoint** : payments
+
+**Method** : GET
+
+**Sample URL** : https://sandbox-api.paymentservice.com/v1/payments?limit=2&status=succeeded\`
+
+## Authentication
+Authenticate your request by including your secret key in the \`Authorization\` header.
+\`Authorization: Bearer <YOUR_SECRET_KEY>\`
+
+### Query Parameters
+Query parameters allow you to filter and paginate the results returned by the API.
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| **\`limit\`** | Integer | \`10\` | The number of objects to return. Min: \`1\`, Max: \`100\`. |
+| **\`starting_after\`** | String | \`null\` | A cursor for use in pagination. Provide an object \`id\` to fetch the next page of results. |
+| **\`status\`** | String | \`null\` | Filter by state: \`requires_payment_method\`, \`processing\`, \`succeeded\`, \`canceled\`. |
+| **\`customer\`** | String | \`null\` | Only return payments for a specific customer ID (e.g., \`cus_987...\`). |
+| **\`created[gte]\`** | Timestamp | \`null\` | Return payments created on or after this Unix timestamp. |
+
+### Sample Request
+\`\`\`
+curl -G [https://sandbox-api.paymentservice.com/v1/payments](https://sandbox-api.paymentservice.com/v1/payments) \\
+  -H "Authorization: Bearer sk_test_4eC39H..." \\
+  -d limit=2 \\
+  -d status=succeeded\`
+  \`\`\`
+
+## Sample Response
+The API returns a JSON object containing a data array of payment objects and metadata for pagination.
+
+\`\`\`
+{
+  "object": "list",
+  "url": "/v1/payments",
+  "has_more": true,
+  "data": [
+    {
+      "id": "pi_3MWA2iLkdltVp4EE1",
+      "object": "payment_intent",
+      "amount": 2500,
+      "currency": "usd",
+      "status": "succeeded",
+      "livemode": false,
+      "created": 1711216714,
+      "payment_method_types": ["card"],
+      "description": "Order #9876",
+      "metadata": {
+        "order_id": "6735"
+      }
+    },
+    {
+      "id": "pi_1ORu2iLkdltVp4AA2",
+      "object": "payment_intent",
+      "amount": 1200,
+      "currency": "usd",
+      "status": "succeeded",
+      "livemode": false,
+      "created": 1711205000,
+      "payment_method_types": ["card"],
+      "description": "Order #9875",
+      "metadata": {
+        "order_id": "6734"
+      }
+    }
+  ]
+}
+\`\`\``,
+'installation': `# Insight AnalytiX Installation Guide
+
+Use this guide to install the Insight AnalytiX node and connect it to the StorageX management console. This procedure ensures your node is correctly configured for data discovery and analytics.
+
+## Prerequisites
+Before you begin the installation, verify that the target server meets these requirements:
+
+* **Operating system:** RHEL 8.x or Ubuntu 20.04 LTS.
+* **Hardware:** 8 vCPU, 16 GB RAM, and 100 GB available disk space.
+* **Network:** Ports **443** (HTTPS) and **8080** must be open for communication between the node and the StorageX server.
+* **Permissions:** Root or \`sudo\` privileges are required to execute installation scripts.
+
+---
+
+## Install the AnalytiX engine
+Use the command-line interface (CLI) to deploy the engine.
+
+### 1. Download and extract the package
+Navigate to your staging directory and retrieve the latest build:
+
+\`\`\`bash
+wget [https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz](https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz)
+tar -xvf insight-analytix-v2.1.tar.gz
+cd insight-analytix-v2.1
+\`\`\`
+### 2. Run the installation script
+\`\`\`bash
+Use the \`--management-ip\` flag to link the node to your StorageX console:
+sudo ./install.sh --management-ip <IP_ADDRESS> --node-name "<NODE_NAME>"
+\`\`\`
+### 3. Verify the service status
+Confirm that the services are active and running:
+\`\`\`bash
+systemctl status analytix-engine
+\`\`\`
+## Troubleshooting
+Refer to the table below to resolve common installation issues.
+| Issue | Cause | Solution |
+| :--- | :--- | :--- |
+| **Connection timeout** | Port 443 is blocked by a firewall. | Run \`ufw allow 443\` or check network security groups. |
+| **Invalid management IP** | The IP address is unreachable. | Ping the server to verify connectivity and re-run the script. |
+| **Insufficient disk space** | The \`/opt\` partition has less than 10 GB available. | Clean up logs or expand the partition before restarting setup. |
+## Post-Installation
+After a successful installation, log in to the StorageX Insight Analytics dashboard to verify the node appears in the managed resources list and to initiate your first scan.`,
+'casestudy':    `# Case study: Implementing DITA for content efficiency
+
+### Executive summary
+In global enterprise environments like **Dassault Systèmes Medidata**, maintaining documentation for multiple product versions (such as Patient Cloud and Study Feasibility) often leads to content redundancy and high maintenance costs.This case study highlights the transition from unstructured authoring to a **DITA XML methodology**.This shift resulted in a **30% improvement in content efficiency** and a **100% on-time delivery rate** for documentation sprints.
+
+### The challenge
+Before the implementation, the documentation team faced several bottlenecks:
+* **Manual updates:** Staff had to manually replicate content changes across multiple user guides.
+* **Legacy conversion:** The team needed to convert the entire library of legacy Adobe FrameMaker content into a structured format to support modern delivery requirements.
+* **Regulatory risks:** Frequent software updates required instant alignment with healthcare regulatory changes, leaving little room for error.
+
+### The strategy: Modular information architecture
+The solution involved moving from book-based writing to topic-based writing.
+
+#### 1. Content auditing and chunking
+The team audited existing manuals to identify information types, such as **Concepts**, **Tasks**, and **References**. By breaking down large manuals into independent DITA topics, the team enabled granular reuse.
+
+#### 2. Advanced reuse mechanisms
+Specific DITA features were implemented to automate updates:
+* **Content references (conref):** Used for common UI labels, safety warnings, and boilerplate text. A single change in the source file automatically updated all 50+ published guides.
+* **Key references (keyref):** Allowed for variable product names and version numbers, making the documentation product-agnostic until publicatio.
+
+#### 3. Structured authoring workflow
+Using the **Oxygen XML Editor**, the team moved to a collaborative environment where writers worked within **DITA Maps** to assemble customized outputs for different user personas.
+
+### Business results
+The transition delivered measurable value to the organization:
+* **30% resource savings:** Reduced the time spent on repetitive manual updates by 30%.
+* **Improved user experience:** Published more than 50 comprehensive user guides with a 40% improvement in user understanding due to consistent terminology.
+* **Agile integration:** Successfully coordinated 20+ documentation sprints, ensuring 100% alignment with General Availability (GA) build releases.`
+  };
+
+  var files = [
+    { key: 'quickstart',   title: 'Quick Start Guide: Insight AnalytiX v2.1.0',          type: 'guide',   typeLabel: 'Quick Start Guide',  desc: 'A concise deployment guide to get Insight AnalytiX up and running — environment prep, installation commands, connectivity check, and first scan.' },
+    { key: 'releasenote',  title: 'Release Notes: Insight AnalytiX v2.1.0 (GA)',          type: 'release', typeLabel: 'Release Notes',      desc: 'GA release notes covering new features, resolved issues with bug IDs, known issues with workarounds, and technical requirements.' },
+    { key: 'api_post',     title: 'API Reference — Payment Intent (POST)',                 type: 'api',     typeLabel: 'API Reference',      desc: 'RESTful API reference for a POST endpoint — parameters, authentication, sample request/response bodies, and error codes.' },
+    { key: 'api_get',      title: 'API Reference — List All Payments (GET)',               type: 'api',     typeLabel: 'API Reference',      desc: 'GET endpoint documentation with query parameters, pagination, response schema, and annotated JSON examples.' },
+    { key: 'installation', title: 'Insight AnalytiX Installation Guide',                  type: 'guide',   typeLabel: 'Installation Guide', desc: 'End-to-end installation and setup with prerequisites, step-by-step CLI instructions, and a troubleshooting table.' },
+    { key: 'casestudy',    title: 'Case Study: Implementing DITA for Content Efficiency',  type: 'case',    typeLabel: 'Case Study',         desc: 'Executive summary of a real-world DITA implementation at Dassault Systemes Medidata — challenges, strategy, and 30% efficiency outcomes.' }
+  ];
+
+  // ── Show cards immediately ──
+  var loadingEl = document.getElementById('samples-loading');
+  var gridEl    = document.getElementById('samples-grid');
+  if (loadingEl) loadingEl.style.display = 'none';
+  if (gridEl)    gridEl.style.display    = 'grid';
+  renderCards('all');
+
+  // ── Filter buttons ──
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      renderCards(btn.dataset.filter);
+    });
+  });
+
+  function renderCards(filter) {
+    var grid = document.getElementById('samples-grid');
+    grid.innerHTML = '';
+    var shown = filter === 'all' ? files : files.filter(function(f) { return f.type === filter; });
+    shown.forEach(function(file) {
+      var card = document.createElement('div');
+      card.className = 'sample-card';
+      card.dataset.type = file.type;
+      card.innerHTML =
+        '<div class="sample-card-type">' + file.typeLabel + '</div>' +
+        '<h3>' + file.title + '</h3>' +
+        '<p>' + file.desc + '</p>' +
+        '<div class="sample-card-footer">' +
+          '<button class="btn-preview">Preview ↗</button>' +
+        '</div>';
+      grid.appendChild(card);
+      card.querySelector('.btn-preview').addEventListener('click', (function(f){ return function(){ openModal(f); }; })(file));
+    });
+  }
+
+  // ── Inline formatting helper ──
+  function inlineFormat(s) {
+    return s
+      .replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/`([^`]+)`/g,'<code>$1</code>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+  }
+
+  // ── Table parser ──
+  function parseTable(tableLines) {
+    var dataLines = tableLines.filter(function(l){ return !/^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(l); });
+    if (!dataLines.length) return '';
+    var rows = dataLines.map(function(line){
+      return line.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map(function(c){ return c.trim(); });
+    });
+    var html = '<table><thead><tr>';
+    rows[0].forEach(function(c){ html += '<th>' + inlineFormat(c) + '</th>'; });
+    html += '</tr></thead><tbody>';
+    for (var i = 1; i < rows.length; i++) {
+      html += '<tr>';
+      rows[i].forEach(function(c){ html += '<td>' + inlineFormat(c) + '</td>'; });
+      html += '</tr>';
+    }
+    return html + '</tbody></table>';
+  }
+
+  // ── Markdown → HTML ──
+  function mdToHtml(md) {
+    var result = [];
+    var lines = md.split('\n');
+    var i = 0;
+    while (i < lines.length) {
+      var line = lines[i];
+      // Code block
+      if (/^```/.test(line)) {
+        var code = []; i++;
+        while (i < lines.length && !/^```/.test(lines[i])) { code.push(lines[i]); i++; }
+        result.push('<pre><code>' + code.join('\n').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</code></pre>');
+        i++; continue;
+      }
+      // Table
+      if (/\|/.test(line)) {
+        var tbl = [];
+        while (i < lines.length && /\|/.test(lines[i])) { tbl.push(lines[i]); i++; }
+        result.push(parseTable(tbl)); continue;
+      }
+      // Headings
+      var m;
+      if ((m = line.match(/^#### (.+)/))) { result.push('<h4>' + inlineFormat(m[1]) + '</h4>'); i++; continue; }
+      if ((m = line.match(/^### (.+)/)))  { result.push('<h3>' + inlineFormat(m[1]) + '</h3>'); i++; continue; }
+      if ((m = line.match(/^## (.+)/)))   { result.push('<h2>' + inlineFormat(m[1]) + '</h2>'); i++; continue; }
+      if ((m = line.match(/^# (.+)/)))    { result.push('<h1>' + inlineFormat(m[1]) + '</h1>'); i++; continue; }
+      // HR
+      if (/^---+$/.test(line.trim())) { result.push('<hr>'); i++; continue; }
+      // List
+      if (/^\s*[-*+] /.test(line) || /^\s*\d+\. /.test(line)) {
+        var items = [];
+        while (i < lines.length && (/^\s*[-*+] /.test(lines[i]) || /^\s*\d+\. /.test(lines[i]))) {
+          items.push('<li>' + inlineFormat(lines[i].replace(/^\s*[-*+] /,'').replace(/^\s*\d+\. /,'')) + '</li>');
+          i++;
+        }
+        result.push('<ul>' + items.join('') + '</ul>'); continue;
+      }
+      // Blockquote
+      if (/^> /.test(line)) { result.push('<blockquote>' + inlineFormat(line.replace(/^> /,'')) + '</blockquote>'); i++; continue; }
+      // Empty
+      if (line.trim() === '') { i++; continue; }
+      // Paragraph
+      result.push('<p>' + inlineFormat(line) + '</p>');
+      i++;
+    }
+    return result.join('\n');
+  }
+
+  // ── Modal ──
+  function openModal(file) {
+    var overlay    = document.getElementById('modal-overlay');
+    var content    = document.getElementById('modal-content');
+    document.getElementById('modal-title').textContent = file.title;
+    content.innerHTML = mdToHtml(fileContents[file.key]);
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  document.getElementById('modal-close').addEventListener('click', function() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  });
+
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === e.currentTarget) {
+      e.currentTarget.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+
+});
+</script>
+
+<!-- ACHIEVEMENTS -->
+<section class="achievements-section" id="achievements">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2>Key <em>Achievements</em></h2>
+  </div>
+  <div class="achievements-grid">
+    <div class="achievement-item">
+      <span class="achievement-num">50+</span>
+      <span class="achievement-label">User Guides</span>
+      <p class="achievement-desc">Published comprehensive user guides that improved user understanding by 40% across product lines.</p>
+    </div>
+    <div class="achievement-item">
+      <span class="achievement-num">100%</span>
+      <span class="achievement-label">On-Time Releases</span>
+      <p class="achievement-desc">Facilitated documentation for every on-time release across all project cycles — zero missed sprints.</p>
+    </div>
+    <div class="achievement-item">
+      <span class="achievement-num">30%</span>
+      <span class="achievement-label">Efficiency Gain</span>
+      <p class="achievement-desc">Reduced content update resources by 30% through DITA modular authoring and reuse strategies.</p>
+    </div>
+    <div class="achievement-item">
+      <span class="achievement-num">20+</span>
+      <span class="achievement-label">Doc Sprints Led</span>
+      <p class="achievement-desc">Coordinated over 20 Agile documentation sprints, delivering GA release notes and Readme files on schedule.</p>
+    </div>
+    <div class="achievement-item">
+      <span class="achievement-num">100%</span>
+      <span class="achievement-label">DITA Migration</span>
+      <p class="achievement-desc">Successfully transitioned an entire department's content from unstructured FrameMaker to DITA XML format.</p>
+    </div>
+    <div class="achievement-item">
+      <span class="achievement-num">7 yr</span>
+      <span class="achievement-label">Industry Span</span>
+      <p class="achievement-desc">Cross-industry expertise spanning defence, building automation, enterprise data, and healthcare/clinical trials.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="tools-section" id="tools">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2>Technical <em>Toolkit</em></h2>
+  </div>
+  <table class="tools-table">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Tools & Technologies</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Authoring</td>
+        <td>Adobe FrameMaker · Adobe RoboHelp · Paligo · Confluence · MadCap Flare · Markdown (VS Code)</td>
+      </tr>
+      <tr>
+        <td>XML & DITA</td>
+        <td>Oxygen XML Editor · DITA Open Toolkit · Structured Authoring</td>
+      </tr>
+      <tr>
+        <td>API Documentation</td>
+        <td>Swagger / OpenAPI · Postman · cURL</td>
+      </tr>
+      <tr>
+        <td>Graphic & Video</td>
+        <td>Snagit · Articulate 360 · Adobe InDesign</td>
+      </tr>
+      <tr>
+        <td>Version Control</td>
+        <td>GitHub · Git</td>
+      </tr>
+      <tr>
+        <td>CMS & Knowledge Bases</td>
+        <td>Knowledge Hub · Document360</td>
+      </tr>
+      <tr>
+        <td>Project Management</td>
+        <td>JIRA · MS SharePoint · Agile / Scrum</td>
+      </tr>
+      <tr>
+        <td>AI Tools</td>
+        <td>Notebook LM · Microsoft Copilot</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CERTIFICATIONS -->
+<style>
+  .cert-section { background: var(--card-bg); }
+
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+
+  .cert-card {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: var(--rust);
+  }
+
+  .cert-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px rgba(184, 92, 42, 0.1);
+  }
+
+  .cert-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: var(--warm);
+    border: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+  }
+
+  .cert-body { flex: 1; }
+
+  .cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.4rem;
+  }
+
+  .cert-title {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.6rem;
+  }
+
+  .cert-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+
+  .cert-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .cert-topic {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--rule);
+    color: var(--muted);
+  }
+
+  .cert-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    background: var(--rust);
+    color: var(--cream);
+    display: inline-block;
+    margin-bottom: 0.6rem;
+  }
+</style>
+
+<section class="cert-section" id="certifications">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2>Certifications & <em>Training</em></h2>
+  </div>
+  <div class="cert-grid">
+
+    <div class="cert-card">
+      <div class="cert-icon">✦</div>
+      <div class="cert-body">
+        <div class="cert-issuer">Tech Writer's Tribe</div>
+        <div class="cert-title">Fundamentals of API Documentation</div>
+        <div class="cert-meta">Jan 31 – Feb 15, 2026 &nbsp;·&nbsp; TWTC No. 7388 &nbsp;·&nbsp; Reg. AAS-6325</div>
+        <span class="cert-badge">Successfully Completed</span>
+        <div class="cert-topics">
+          <span class="cert-topic">API Concepts</span>
+          <span class="cert-topic">JSON & YAML</span>
+          <span class="cert-topic">Postman & Swagger</span>
+          <span class="cert-topic">REST API Docs</span>
+          <span class="cert-topic">API Doc Structure</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">⬡</div>
+      <div class="cert-body">
+        <div class="cert-issuer">Tech Writer's Tribe</div>
+        <div class="cert-title">AI in Technical Writing Workshop</div>
+        <div class="cert-meta">Mar 21 – 22, 2026 &nbsp;·&nbsp; TWTC No. 7420 &nbsp;·&nbsp; Reg. AAS-6325</div>
+        <span class="cert-badge" style="background: var(--ink);">Participated</span>
+        <div class="cert-topics">
+          <span class="cert-topic">AI in Tech Writing</span>
+          <span class="cert-topic">AI Tools for Writers</span>
+          <span class="cert-topic">Prompt Engineering</span>
+          <span class="cert-topic">AI Doc Portfolio</span>
+          <span class="cert-topic">GPT · Copilot · Claude</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact" style="padding:0;">
+  <div class="contact-left">
+    <h2>Let's <em>Connect</em></h2>
+    <p>Open to new documentation projects, technical writing roles, and collaboration opportunities.</p>
+    <a href="/cdn-cgi/l/email-protection#610a001112041113000f081553595521060c00080d4f020e0c" class="btn-primary">Send an Email</a>
+  </div>
+  <div class="contact-right">
+    <div class="contact-item">
+      <span class="contact-label">Email</span>
+      <a href="/cdn-cgi/l/email-protection#c8a3a9b8bbadb8baa9a6a1bcfaf0fc88afa5a9a1a4e6aba7a5" class="contact-value"><span class="__cf_email__" data-cfemail="6308021310061311020d0a17515b5723040e020a0f4d000c0e">[email&#160;protected]</span></a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">Phone</span>
+      <a href="tel:+919325392079" class="contact-value">+91 93253 92079</a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">Location</span>
+      <span class="contact-value">Pune, Maharashtra 411028</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">LinkedIn</span>
+      <a href="https://www.linkedin.com/in/pranit-kapse-721340284/" target="_blank" class="contact-value">pranit-kapse ↗</a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

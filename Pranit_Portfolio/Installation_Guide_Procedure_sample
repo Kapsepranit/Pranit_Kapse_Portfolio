@@ -1,0 +1,44 @@
+# Insight AnalytiX Installation Guide
+
+Use this guide to install the Insight AnalytiX node and connect it to the StorageX management console. This procedure ensures your node is correctly configured for data discovery and analytics.
+
+## Prerequisites
+Before you begin the installation, verify that the target server meets these requirements:
+
+* **Operating system:** RHEL 8.x or Ubuntu 20.04 LTS.
+* **Hardware:** 8 vCPU, 16 GB RAM, and 100 GB available disk space.
+* **Network:** Ports **443** (HTTPS) and **8080** must be open for communication between the node and the StorageX server.
+* **Permissions:** Root or `sudo` privileges are required to execute installation scripts.
+
+---
+
+## Install the AnalytiX engine
+Use the command-line interface (CLI) to deploy the engine.
+
+### 1. Download and extract the package
+Navigate to your staging directory and retrieve the latest build:
+
+```bash
+wget [https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz](https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz)
+tar -xvf insight-analytix-v2.1.tar.gz
+cd insight-analytix-v2.1
+```
+### 2. Run the installation script
+```bash
+Use the `--management-ip` flag to link the node to your StorageX console:
+sudo ./install.sh --management-ip <IP_ADDRESS> --node-name "<NODE_NAME>"
+```
+### 3. Verify the service status
+Confirm that the services are active and running:
+```bash
+systemctl status analytix-engine
+```
+## Troubleshooting
+Refer to the table below to resolve common installation issues.
+| Issue | Cause | Solution |
+| :--- | :--- | :--- |
+| **Connection timeout** | Port 443 is blocked by a firewall. | Run `ufw allow 443` or check network security groups. |
+| **Invalid management IP** | The IP address is unreachable. | Ping the server to verify connectivity and re-run the script. |
+| **Insufficient disk space** | The `/opt` partition has less than 10 GB available. | Clean up logs or expand the partition before restarting setup. |
+## Post-Installation
+After a successful installation, log in to the StorageX Insight Analytics dashboard to verify the node appears in the managed resources list and to initiate your first scan.

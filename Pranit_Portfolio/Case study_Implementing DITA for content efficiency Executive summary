@@ -1,0 +1,30 @@
+# Case study: Implementing DITA for content efficiency
+
+### Executive summary
+In global enterprise environments like **Dassault Systèmes Medidata**, maintaining documentation for multiple product versions (such as Patient Cloud and Study Feasibility) often leads to content redundancy and high maintenance costs.This case study highlights the transition from unstructured authoring to a **DITA XML methodology**.This shift resulted in a **30% improvement in content efficiency** and a **100% on-time delivery rate** for documentation sprints.
+
+### The challenge
+Before the implementation, the documentation team faced several bottlenecks:
+* **Manual updates:** Staff had to manually replicate content changes across multiple user guides.
+* **Legacy conversion:** The team needed to convert the entire library of legacy Adobe FrameMaker content into a structured format to support modern delivery requirements.
+* **Regulatory risks:** Frequent software updates required instant alignment with healthcare regulatory changes, leaving little room for error.
+
+### The strategy: Modular information architecture
+The solution involved moving from book-based writing to topic-based writing.
+
+#### 1. Content auditing and chunking
+The team audited existing manuals to identify information types, such as **Concepts**, **Tasks**, and **References**. By breaking down large manuals into independent DITA topics, the team enabled granular reuse.
+
+#### 2. Advanced reuse mechanisms
+Specific DITA features were implemented to automate updates:
+* **Content references (conref):** Used for common UI labels, safety warnings, and boilerplate text. A single change in the source file automatically updated all 50+ published guides.
+* **Key references (keyref):** Allowed for variable product names and version numbers, making the documentation product-agnostic until publicatio.
+
+#### 3. Structured authoring workflow
+Using the **Oxygen XML Editor**, the team moved to a collaborative environment where writers worked within **DITA Maps** to assemble customized outputs for different user personas.
+
+### Business results
+The transition delivered measurable value to the organization:
+* **30% resource savings:** Reduced the time spent on repetitive manual updates by 30%.
+* **Improved user experience:** Published more than 50 comprehensive user guides with a 40% improvement in user understanding due to consistent terminology.
+* **Agile integration:** Successfully coordinated 20+ documentation sprints, ensuring 100% alignment with General Availability (GA) build releases.

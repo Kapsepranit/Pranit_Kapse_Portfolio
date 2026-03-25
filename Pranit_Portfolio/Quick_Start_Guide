@@ -1,0 +1,39 @@
+# Quick start guide: Insight AnalytiX v2.1.0
+
+Use this guide to deploy the Insight AnalytiX node and initiate your first data discovery scan.
+
+## 1. Prepare the environment
+Verify that your server meets these minimum requirements before you begin:
+* **Operating system:** RHEL 8.x or Ubuntu 20.04 LTS.
+* **Network:** Open ports **443** and **8080**.
+* **Permissions:** Root or `sudo` privileges.
+
+## 2. Install the node
+Use these commands to download and install the engine. 
+
+```bash
+# Download the package
+wget [https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz](https://downloads.datadynamics.com/insight-analytix-v2.1.tar.gz)
+
+# Extract the files and navigate to the directory
+tar -xvf insight-analytix-v2.1.tar.gz && cd insight-analytix-v2.1
+
+# Run the installer
+sudo ./install.sh --management-ip <YOUR_STORAGE_X_IP>
+```
+## 3. Verify connectivity
+Confirm that the service is running correctly:
+
+```bash
+systemctl status analytix-engine
+```
+The status must display **active (running)**.
+
+## 4. Run your first scan
+1. Log in to the **StorageX management console**.
+
+2. Go to **Data Discovery** > **AnalytiX Nodes**.
+
+3. Select your new node and select **Create New Scan**.
+
+4. Define your source path and select **Start**.

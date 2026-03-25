@@ -1,0 +1,46 @@
+# Release notes: Insight AnalytiX v2.1.0 (GA)
+
+**Release Date:** March 24, 2022 
+**Build Number:** 2.1.0.442  
+**Deployment Type:** General Availability (GA)
+
+## Overview
+Insight AnalytiX v2.1.0 introduces enhanced data discovery capabilities and streamlined node management. This release focuses on improving scan performance for large-scale storage environments and expanding support for cloud-native protocols.
+
+---
+
+## New features
+* **Multi-threaded scanning:** Improved scan efficiency by 30% for high-density file systems through optimized DITA-based modular indexing[cite: 10, 22].
+* **Astro Starlight integration:** Launched a new web-based documentation portal using the Docs-as-Code methodology for real-time technical updates.
+* **Webhooks for real-time alerts:** Added support for outbound webhooks, allowing integration with third-party collaboration tools for instant scan notifications[cite: 13].
+
+---
+
+## Resolved issues
+The following issues were resolved in the **v2.1.0** build[cite: 27, 28, 38].
+
+| Category | ID | Description |
+| :--- | :--- | :--- |
+| **Performance** | FIX-402 | **Resolved** a processing bottleneck where the `tar -xvf` command caused temporary UI freezes on RHEL 8.x nodes. |
+| **UX Writing** | FIX-511 | **Updated** the Patient Cloud onboarding microcopy to clarify data privacy consent, improving user journey completion[cite: 20, 21]. |
+| **System** | FIX-389 | **Fixed** a reporting error where `systemctl status` displayed an "Inactive" state while background scans were in progress. |
+| **UI/UX** | FIX-602 | **Corrected** a display error in the Study Feasibility module where button labels were truncated on high-resolution screens[cite: 28]. |
+| **Data Integrity**| FIX-214 | **Verified** 100% accuracy during the automated conversion of legacy FrameMaker tables into structured DITA XML[cite: 26, 39]. |
+
+---
+
+## Known issues and workarounds
+| Issue | Cause | Workaround |
+| :--- | :--- | :--- |
+| **Connection timeout** | Port 443 is blocked by a network firewall. | Run `ufw allow 443` or modify your network security group settings. |
+| **Invalid management IP**| The target IP address is unreachable. | Ping the server to verify connectivity and re-run the installation script. |
+| **Insufficient disk space**| The `/opt` partition has less than 10 GB of available space. | Clean up system logs or expand the partition before restarting the setup. |
+
+---
+
+## Technical requirements
+To ensure a successful upgrade, verify that your environment meets the following specifications:
+
+* **Node OS:** RHEL 8.x or Ubuntu 20.04 LTS.
+* **Java version:** OpenJDK 11.
+* **Memory:** 16 GB RAM (minimum).

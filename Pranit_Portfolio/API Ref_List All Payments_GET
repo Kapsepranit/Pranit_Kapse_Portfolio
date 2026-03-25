@@ -1,0 +1,75 @@
+# List All Payments
+
+Retrieves a list of `PaymentIntent` objects. The results are returned in reverse chronological order, with the most recent transactions appearing first. Use this endpoint to audit transactions or populate order history in your application.
+
+**Base URL** : https://api.paymentservice.com/v1
+
+**Endpoint** : payments
+
+**Method** : GET
+
+**Sample URL** : https://sandbox-api.paymentservice.com/v1/payments?limit=2&status=succeeded`
+
+## Authentication
+Authenticate your request by including your secret key in the `Authorization` header.
+`Authorization: Bearer <YOUR_SECRET_KEY>`
+
+### Query Parameters
+Query parameters allow you to filter and paginate the results returned by the API.
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| **`limit`** | Integer | `10` | The number of objects to return. Min: `1`, Max: `100`. |
+| **`starting_after`** | String | `null` | A cursor for use in pagination. Provide an object `id` to fetch the next page of results. |
+| **`status`** | String | `null` | Filter by state: `requires_payment_method`, `processing`, `succeeded`, `canceled`. |
+| **`customer`** | String | `null` | Only return payments for a specific customer ID (e.g., `cus_987...`). |
+| **`created[gte]`** | Timestamp | `null` | Return payments created on or after this Unix timestamp. |
+
+### Sample Request
+```
+curl -G [https://sandbox-api.paymentservice.com/v1/payments](https://sandbox-api.paymentservice.com/v1/payments) \
+  -H "Authorization: Bearer sk_test_4eC39H..." \
+  -d limit=2 \
+  -d status=succeeded`
+  ```
+
+## Sample Response
+The API returns a JSON object containing a data array of payment objects and metadata for pagination.
+
+```
+{
+  "object": "list",
+  "url": "/v1/payments",
+  "has_more": true,
+  "data": [
+    {
+      "id": "pi_3MWA2iLkdltVp4EE1",
+      "object": "payment_intent",
+      "amount": 2500,
+      "currency": "usd",
+      "status": "succeeded",
+      "livemode": false,
+      "created": 1711216714,
+      "payment_method_types": ["card"],
+      "description": "Order #9876",
+      "metadata": {
+        "order_id": "6735"
+      }
+    },
+    {
+      "id": "pi_1ORu2iLkdltVp4AA2",
+      "object": "payment_intent",
+      "amount": 1200,
+      "currency": "usd",
+      "status": "succeeded",
+      "livemode": false,
+      "created": 1711205000,
+      "payment_method_types": ["card"],
+      "description": "Order #9875",
+      "metadata": {
+        "order_id": "6734"
+      }
+    }
+  ]
+}
+```
